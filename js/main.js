@@ -6,8 +6,9 @@
 function addSubject() {
   let data = readForm();
 
+  // Validations of Form
   // Add the Values to the History
-  insertSubjectHistory(data);
+  insertSubjectHistory(data);    
 
   // Last function on the logic
   resetForm();
@@ -28,7 +29,7 @@ function readForm() {
 
 
 /**
- *
+ * Insert the Data from the Form to the History Table
  *
  * @param {Object} subjectObject
  */
@@ -51,24 +52,31 @@ function insertSubjectHistory(subjectObject) {
   // Get the ID, if it's there's not an actual row set the id to 0
 
   // Options Buttons the last cell of the table
+  // TODO: Add the Font Awesome Icons for the Delete(Trash) Edit(Pencil)
   let optionsButtons = `
     <button class="btn btn-danger" type="button" onclick="alert('Borrar');">
       Borrar
     </button>
 
-  <button class="btn btn-warning" type="button" onclick="alert('Editar');">
+    <button class="btn btn-warning" type="button" onclick="alert('Editar');">
       Editar
-  </button>
+    </button>
   `;
 
   // Displaying into the HTML Content
   subjectCell.innerHTML = subjectObject.subject;
-  timeCell.innerHTML = subjectObject.time;
+
+  if(subjectObject.time >= 12) {
+    timeCell.innerHTML = subjectObject.time + 'PM';
+  } else {
+    timeCell.innerHTML = subjectObject.time + 'AM';
+  }
+  
   optionsCell.innerHTML = optionsButtons;
 }
 
 /**
- *
+ * Insert the Data from the Form to the Schedule Table
  *
  * @param {Object} subjectObject
  */
@@ -82,5 +90,5 @@ function insertSubjectSchedule(subjectObject) {
  */
 function resetForm() {
   document.getElementById('name_subject').value = '';
-  document.getElementById('time_subject').value = '';
+  document.getElementById('time_subject').value = '07';
 }
