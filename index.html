@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bison Tracker | Inicio</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/678f036c21.js"></script>
+  </head>
+  <body>
+    <!-- The Header should act as a Alert Disposer only -->
+    <header class="site-header">
+      <div class="container-fluid">
+
+      </div>
+    </header>
+
+    <nav class="site-navigation navbar navbar-expand-lg navbar-light bg-light">
+      <a href="#" class="navbar-brand" rel="noopener noreferrer">
+          <img src="img/BisonLogo.png" width="30" height="30" class="d-inline-block align-top" alt="Bison Logo">
+          Bison Tracker
+      </a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navLinks" aria-controls="#navLinks" aria-expanded="false" aria-label="Activar Navegación">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navLinks">
+        <ul class="navbar-nav ml-auto">
+
+          <li class="nav-item">
+            <a href="#" class="nav-link" rel="noopener noreferrer">
+              Inicio
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="https://github.com/Riguidix" class="nav-link btn btn-dark text-white pl-3 pr-3" rel="noopener noreferrer">
+              <i class="fab fa-github-alt"></i> Github
+            </a>
+          </li>
+
+        </ul>
+      </div>      
+    </nav>
+
+    <main class="site-main">
+      <div class="container-fluid">
+        <div class="row">
+            <div class="user-values col-4 m-4">
+              <div class="user-input card mb-3">
+                <div class="card-header">
+                  <h4>
+                    Agregar Materia
+                  </h4>
+                </div>
+                <div class="card-body">
+                  <form action="">
+                    <div class="form-group">
+                        <label for="name_subject">Nombre de la Materia:</label>
+                        <input class="form-control" type="text" name="name_subject" id="name_subject" placeholder="ej. Matemáticas Discretas" required>
+  
+                        <label for="time_subject">Hora de Clase:</label>
+                        <input class="form-control" type="time" name="time_subject" id="time_subject" min="07:00" max="21:00" required>
+                        <small class="form-text text-muted">Los tiempos deberán ser en 24hrs</small>
+                    </div>
+                    
+                    <button type="button" class="btn btn-block btn-success" onclick="addSubject();">
+                      <i class="fas fa-paper-plane"></i> Agregar
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <div class="input-history card mt-3">
+                <div class="card-header">
+                  <div class="row">
+                    <h4 class="col-6">
+                      Historial
+                    </h4>
+                    <small class="col-6 text-right text-info">
+                      <span class="items-num">
+                        <div class="spinner spinner-border spinner-border-sm" role="status">
+                          <span class="sr-only">Loading...</span>
+                        </div>
+                      </span>
+                      Items
+                    </small>
+                  </div>
+                </div>
+                <div class="card-body" id="history-items">
+                  <table class="table table-bordered">
+                    <thead class="thead-dark text-center">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Materia</th>
+                        <th scope="col">Hora</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="table-history">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="schedules col-7 m-4">
+              <table class="table table-bordered text-center">
+
+                <!-- 
+                  Los ID en los TD de las horas reflejan como xcol-y-z:
+                    Siendo X:
+                      El valor de ARRIBA a ABAJO la columna(una columna es una agrupación de celdas que se agrupan verticalmente desde arriba hacia abajo) al orden tal como:
+                            COLUMNA     COLUMNA     COLUMNA     COLUMNA       ...       COLUMNA
+                                1           2           3           4         ...          8
+                            COLUMNA     COLUMNA     COLUMNA     COLUMNA       ...       COLUMNA
+                                1           2           3           4         ...          8
+                                .           .           .           .          .           .
+                                .           .           .           .          .           .
+                                .           .           .           .          .           .
+                            COLUMNA     COLUMNA     COLUMNA     COLUMNA       ...       COLUMNA
+                                1           2           3           4         ...          8
+
+                    Siendo Y:
+                      El valor de la hora que están agrupadas
+
+                    Siendo Z:
+                      El valor de IZQUIERDA a DERECHA la fila(una fila es un grupo de celdas que se agrupan horizontalmente de izquierda a derecha) al orden tal como:
+                            COLUMNA     COLUMNA     COLUMNA     COLUMNA       ...       COLUMNA
+                                1           2           3           4         ...           8
+                -->
+
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" colspan="16">Horarios</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>07:00</td>
+
+                    <td colspan="2" id="1col-7-1"></td>
+                    <td colspan="2" id="1col-7-2"></td>
+                    <td colspan="2" id="1col-7-3"></td>
+                    <td colspan="2" id="1col-7-4"></td>
+                    <td colspan="2" id="1col-7-5"></td>
+                    <td colspan="2" id="1col-7-6"></td>
+                    <td colspan="2" id="1col-7-7"></td>
+                    <td colspan="2" id="1col-7-8"></td>
+                  </tr>
+
+                  <tr>
+                    <td>08:00</td>
+
+                    <td colspan="2" id="2col-8-1"></td>
+                    <td colspan="2" id="2col-8-2"></td>
+                    <td colspan="2" id="2col-8-3"></td>
+                    <td colspan="2" id="2col-8-4"></td>
+                    <td colspan="2" id="2col-8-5"></td>
+                    <td colspan="2" id="2col-8-6"></td>
+                    <td colspan="2" id="2col-8-7"></td>
+                    <td colspan="2" id="2col-8-8"></td>
+                  </tr>
+
+                  <tr>
+                    <td>09:00</td>
+
+                    <td colspan="2" id="3col-9-1"></td>
+                    <td colspan="2" id="3col-9-2"></td>
+                    <td colspan="2" id="3col-9-3"></td>
+                    <td colspan="2" id="3col-9-4"></td>
+                    <td colspan="2" id="3col-9-5"></td>
+                    <td colspan="2" id="3col-9-6"></td>
+                    <td colspan="2" id="3col-9-7"></td>
+                    <td colspan="2" id="3col-9-8"></td>
+                  </tr>
+
+                  <tr>
+                    <td>10:00</td>
+
+                    <td colspan="2" id="4col-10-1"></td>
+                    <td colspan="2" id="4col-10-2"></td>
+                    <td colspan="2" id="4col-10-3"></td>
+                    <td colspan="2" id="4col-10-4"></td>
+                    <td colspan="2" id="4col-10-5"></td>
+                    <td colspan="2" id="4col-10-6"></td>
+                    <td colspan="2" id="4col-10-7"></td>
+                    <td colspan="2" id="4col-10-8"></td>
+                  </tr>
+
+                  <tr>
+                    <td>11:00</td>
+
+                    <td colspan="2" id="5col-11-1"></td>
+                    <td colspan="2" id="5col-11-2"></td>
+                    <td colspan="2" id="5col-11-3"></td>
+                    <td colspan="2" id="5col-11-4"></td>
+                    <td colspan="2" id="5col-11-5"></td>
+                    <td colspan="2" id="5col-11-6"></td>
+                    <td colspan="2" id="5col-11-7"></td>
+                    <td colspan="2" id="5col-11-8"></td>
+                  </tr>
+
+                  <tr>
+                    <td>12:00</td>
+
+                    <td colspan="2" id="6col-12-1"></td>
+                    <td colspan="2" id="6col-12-2"></td>
+                    <td colspan="2" id="6col-12-3"></td>
+                    <td colspan="2" id="6col-12-4"></td>
+                    <td colspan="2" id="6col-12-5"></td>
+                    <td colspan="2" id="6col-12-6"></td>
+                    <td colspan="2" id="6col-12-7"></td>
+                    <td colspan="2" id="6col-12-8"></td>
+                  </tr>
+
+                  <tr>
+                    <td>13:00</td>
+
+                    <td colspan="2" id="7col-13-1"></td>
+                    <td colspan="2" id="7col-13-2"></td>
+                    <td colspan="2" id="7col-13-3"></td>
+                    <td colspan="2" id="7col-13-4"></td>
+                    <td colspan="2" id="7col-13-5"></td>
+                    <td colspan="2" id="7col-13-6"></td>
+                    <td colspan="2" id="7col-13-7"></td>
+                    <td colspan="2" id="7col-13-8"></td>
+                  </tr>
+
+                  <tr>
+                    <td>14:00</td>
+
+                    <td colspan="2" id="8col-14-1"></td>
+                    <td colspan="2" id="8col-14-2"></td>
+                    <td colspan="2" id="8col-14-3"></td>
+                    <td colspan="2" id="8col-14-4"></td>
+                    <td colspan="2" id="8col-14-5"></td>
+                    <td colspan="2" id="8col-14-6"></td>
+                    <td colspan="2" id="8col-14-7"></td>
+                    <td colspan="2" id="8col-14-8"></td>
+                  </tr>
+
+                  <tr>
+                    <td>15:00</td>
+
+                    <td colspan="2" id="9col-15-1"></td>
+                    <td colspan="2" id="9col-15-2"></td>
+                    <td colspan="2" id="9col-15-3"></td>
+                    <td colspan="2" id="9col-15-4"></td>
+                    <td colspan="2" id="9col-15-5"></td>
+                    <td colspan="2" id="9col-15-6"></td>
+                    <td colspan="2" id="9col-15-7"></td>
+                    <td colspan="2" id="9col-15-8"></td>
+                  </tr>
+
+                  <tr>
+                    <td>16:00</td>
+
+                    <td colspan="2" id="10col-16-1"></td>
+                    <td colspan="2" id="10col-16-2"></td>
+                    <td colspan="2" id="10col-16-3"></td>
+                    <td colspan="2" id="10col-16-4"></td>
+                    <td colspan="2" id="10col-16-5"></td>
+                    <td colspan="2" id="10col-16-6"></td>
+                    <td colspan="2" id="10col-16-7"></td>
+                    <td colspan="2" id="10col-16-8"></td>
+                  </tr>
+
+                  <tr>
+                    <td>17:00</td>
+
+                    <td colspan="2" id="11col-17-1"></td>
+                    <td colspan="2" id="11col-17-2"></td>
+                    <td colspan="2" id="11col-17-3"></td>
+                    <td colspan="2" id="11col-17-4"></td>
+                    <td colspan="2" id="11col-17-5"></td>
+                    <td colspan="2" id="11col-17-6"></td>
+                    <td colspan="2" id="11col-17-7"></td>
+                    <td colspan="2" id="11col-17-8"></td>
+                  </tr>
+
+                  <tr>
+                    <td>18:00</td>
+
+                    <td colspan="2" id="12col-18-1"></td>
+                    <td colspan="2" id="12col-18-2"></td>
+                    <td colspan="2" id="12col-18-3"></td>
+                    <td colspan="2" id="12col-18-4"></td>
+                    <td colspan="2" id="12col-18-5"></td>
+                    <td colspan="2" id="12col-18-6"></td>
+                    <td colspan="2" id="12col-18-7"></td>
+                    <td colspan="2" id="12col-18-8"></td>
+                  </tr>
+
+                  <tr>                    
+                    <td>19:00</td>
+
+                    <td colspan="2" id="13col-19-1"></td>
+                    <td colspan="2" id="13col-19-2"></td>
+                    <td colspan="2" id="13col-19-3"></td>
+                    <td colspan="2" id="13col-19-4"></td>
+                    <td colspan="2" id="13col-19-5"></td>
+                    <td colspan="2" id="13col-19-6"></td>
+                    <td colspan="2" id="13col-19-7"></td>
+                    <td colspan="2" id="13col-19-8"></td>
+                  </tr>
+
+                  <tr>
+                    <td>20:00</td>
+
+                    <td colspan="2" id="14col-20-1"></td>
+                    <td colspan="2" id="14col-20-2"></td>
+                    <td colspan="2" id="14col-20-3"></td>
+                    <td colspan="2" id="14col-20-4"></td>
+                    <td colspan="2" id="14col-20-5"></td>
+                    <td colspan="2" id="14col-20-6"></td>
+                    <td colspan="2" id="14col-20-7"></td>
+                    <td colspan="2" id="14col-20-8"></td>
+                  </tr>
+
+                  <tr>
+                    <td>21:00</td>
+
+                    <td colspan="2" id="15col-21-1"></td>
+                    <td colspan="2" id="15col-21-2"></td>
+                    <td colspan="2" id="15col-21-3"></td>
+                    <td colspan="2" id="15col-21-4"></td>
+                    <td colspan="2" id="15col-21-5"></td>
+                    <td colspan="2" id="15col-21-6"></td>
+                    <td colspan="2" id="15col-21-7"></td>
+                    <td colspan="2" id="15col-21-8"></td>
+                  </tr>
+
+                </tbody>
+
+                <tfoot>
+
+                </tfoot>
+              </table>
+            </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer fixed-bottom bg-light p-1">
+      <div class="container">
+        <div class="row">
+            <h6 class="devBy text-center">
+              <i class="fa fa-code text-info"></i> with <i class="fas fa-heart text-danger"></i> for <i class="fa fa-users text-info"></i>
+            </h6>
+            <div class="extras ml-auto">
+              <a class="ml-3" href="https://github.com/Riguidix/Bison-Tracker" target="_blank" rel="noopener noreferrer">
+                <i class="fa fa-terminal"></i> 0.1.0v
+              </a>
+              <a class="ml-3" href="https://github.com/Riguidix/Bison-Tracker/issues" target="_blank" rel="noopener noreferrer" title="Github Issues">
+                <i class="fa fa-bug"></i>
+              </a>
+            </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="js/main.js" type="text/javascript"></script>
+  </body>
+</html>
